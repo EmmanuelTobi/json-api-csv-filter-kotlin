@@ -8,5 +8,4 @@ class api_model() {
     val gender: String? = null
     val countries: ArrayList<String>? = null
     val colors: ArrayList<String>? = null
-
 }
