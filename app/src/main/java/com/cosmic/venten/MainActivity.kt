@@ -5,31 +5,56 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.cosmic.venten.adapters.APIDataAdapter
+import com.cosmic.venten.listeners.OnAPIDataGotten
+import com.cosmic.venten.model.api_model
+import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
     val mActivity: Activity = this@MainActivity
+    lateinit var adapter: APIDataAdapter
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val apiTask = ApiTask()
+        val apiTask = ApiTask(object : OnAPIDataGotten {
+
+            override fun api_json_loaded(apiModelArr: Array<api_model>) {
+
+                api_data_filter_rv.visibility = View.VISIBLE
+                api_data_filter_rv.setHasFixedSize(true)
+                api_data_filter_rv.layoutManager = LinearLayoutManager(mActivity)
+
+                val apiModelArrList = ArrayList(listOf(*apiModelArr))
+                progressBar.visibility = View.GONE
+                adapter = APIDataAdapter(baseContext, apiModelArrList)
+
+                api_data_filter_rv.adapter = adapter
+            }
+        })
         apiTask.execute()
 
     }
 
-    class ApiTask: AsyncTask<Void, Void, String>() {
+    class ApiTask(private val listener: OnAPIDataGotten): AsyncTask<Void, Void, String>() {
+
         override fun doInBackground(vararg params: Void?): String? {
 
             val url = "https://ven10.co/assessment/filter.json"
@@ -76,19 +101,11 @@ class MainActivity : AppCompatActivity() {
             try {
 
                 val jArray = JSONArray(result)
-                var i = 0
-                while (i < jArray.length()) {
+                val mapper = ObjectMapper()
 
-                    val jObject = jArray.getJSONObject(i)
+                val apiModelArray = mapper.readValue(jArray.toString(), Array<api_model>::class.java)
+                listener.api_json_loaded(apiModelArray)
 
-                    val id = jObject.getString("id")
-
-                    Log.i("JsonID", id)
-
-                    i++
-                }
-
-                Log.i("JsonLength", i.toString())
 
             } catch (e: JSONException) {
                 Log.e("JSONException", "Error: " + e.toString())
