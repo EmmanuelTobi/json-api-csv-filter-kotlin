@@ -8,10 +8,11 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.cosmic.venten"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,7 +37,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation group: 'javax.json', name: 'javax.json-api', version: '1.1.4'
+    implementation 'com.opencsv:opencsv:5.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
     implementation 'com.google.guava:guava:23.0'
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
