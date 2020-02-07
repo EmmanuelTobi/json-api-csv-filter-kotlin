@@ -27,7 +27,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.collections.ArrayList
 
-
 class MainActivity : PermissionUtils()  {
 
     val mActivity: Activity = this@MainActivity
