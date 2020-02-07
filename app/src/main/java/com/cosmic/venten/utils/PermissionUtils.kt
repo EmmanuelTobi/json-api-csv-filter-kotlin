@@ -5,8 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import java.text.SimpleDateFormat
-import java.util.*
 
 open class PermissionUtils : AppCompatActivity() {
 
