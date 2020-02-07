@@ -50,7 +50,7 @@
             android:paddingTop="20dp"
             android:paddingEnd="9dp"
             android:paddingBottom="7dp"
-            android:text="Below contains the list of filters for you to use to get the car owners in United State from a Large csv file you have on your mobile."
+            android:text="Below contains the list of filters for you to use to get the car owners in United States from a Large csv file."
             android:textAlignment="viewEnd"
             android:textColor="@android:color/black"
             android:textSize="13sp"
