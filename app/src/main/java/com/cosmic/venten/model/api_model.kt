@@ -1,6 +1,8 @@
 package com.cosmic.venten.model
 
-class api_model() {
+import java.io.Serializable
+
+class api_model : Serializable {
 
     var id: Int? = null
     var start_year: Int? = null

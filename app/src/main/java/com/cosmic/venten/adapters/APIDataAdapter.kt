@@ -1,11 +1,15 @@
 package com.cosmic.venten.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.cosmic.venten.R
+import com.cosmic.venten.activities.CsvActivity
 import com.cosmic.venten.model.api_model
 import kotlinx.android.synthetic.main.filter_view_holder.view.*
 import java.util.*
@@ -24,6 +28,7 @@ class APIDataAdapter(val mContext: Context,
         return ViewHolder(mView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if(mArrayList[position].gender != ""){
@@ -32,16 +37,10 @@ class APIDataAdapter(val mContext: Context,
             holder.gender.text = "none"
         }
 
-        if(mArrayList[position].start_year != null){
-            holder.startYear.text = mArrayList[position].start_year.toString()
+        if(mArrayList[position].start_year != null && mArrayList[position].end_year != null){
+            holder.dateRange.text = mArrayList[position].start_year.toString() + " - " + mArrayList[position].end_year.toString()
         } else {
-            holder.startYear.text = "none"
-        }
-
-        if(mArrayList[position].end_year != null){
-            holder.endYear.text = mArrayList[position].end_year.toString()
-        } else {
-            holder.endYear.text = "none"
+            holder.dateRange.text = "none"
         }
 
         if(mArrayList[position].countries!!.isNotEmpty()) {
@@ -65,6 +64,14 @@ class APIDataAdapter(val mContext: Context,
         } else {
             holder.colors.text = "none"
         }
+
+        holder.itemView.setOnClickListener {
+
+            val intent = Intent(mContext, CsvActivity::class.java)
+            intent.putExtra("api_filter_data", mArrayList[position])
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            mContext.startActivity(intent)
+        }
     }
 
     fun clearAdapter() {
@@ -79,8 +86,7 @@ class APIDataAdapter(val mContext: Context,
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var gender = view.gender
-        var startYear = view.startYear
-        var endYear = view.endYear
+        var dateRange = view.dateRange
         var countries = view.countries
         var colors = view.colors
     }
