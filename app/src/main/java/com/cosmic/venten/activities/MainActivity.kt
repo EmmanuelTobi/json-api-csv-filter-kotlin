@@ -1,6 +1,8 @@
-package com.cosmic.venten
+package com.cosmic.venten.activities
 
+import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -8,10 +10,13 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cosmic.venten.R
 import com.cosmic.venten.adapters.APIDataAdapter
 import com.cosmic.venten.listeners.OnAPIDataGotten
 import com.cosmic.venten.model.api_model
+import com.cosmic.venten.utils.PermissionUtils
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
@@ -20,11 +25,10 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : PermissionUtils()  {
 
     val mActivity: Activity = this@MainActivity
     lateinit var adapter: APIDataAdapter
@@ -51,6 +55,14 @@ class MainActivity : AppCompatActivity() {
         })
         apiTask.execute()
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (!checkForStoragePermissions()) {
+            getStoragePermissions()
+        }
     }
 
     class ApiTask(private val listener: OnAPIDataGotten): AsyncTask<Void, Void, String>() {
@@ -111,5 +123,18 @@ class MainActivity : AppCompatActivity() {
                 Log.e("JSONException", "Error: " + e.toString())
             }
         }
+    }
+
+    protected fun checkForStoragePermissions() : Boolean {
+        hasStoragePermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            ActivityCompat.checkSelfPermission(baseContext,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+
+        } else {
+            true
+        }
+
+        return hasStoragePermissions
     }
 }
