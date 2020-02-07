@@ -2,10 +2,10 @@ package com.cosmic.venten.model
 
 class api_model() {
 
-    val id: Int? = null
-    val start_year: Int? = null
-    val end_year: Int? = null
-    val gender: String? = null
-    val countries: ArrayList<String>? = null
-    val colors: ArrayList<String>? = null
+    var id: Int? = null
+    var start_year: Int? = null
+    var end_year: Int? = null
+    var gender: String? = null
+    var countries: ArrayList<String>? = null
+    var colors: ArrayList<String>? = null
 }

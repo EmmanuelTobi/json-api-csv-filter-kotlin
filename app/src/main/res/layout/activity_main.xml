@@ -39,7 +39,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/white"
+            android:padding="7dp"
+            android:text="Below contains the list of filters for you to use to get the car owners in United State from a Large csv file you have on your mobile."
+            android:textAlignment="viewEnd"
+            android:textColor="@android:color/black" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/api_data_filter_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="69dp" />
 
         <ProgressBar
             android:id="@+id/progressBar"
