@@ -69,6 +69,7 @@ class APIDataAdapter(val mContext: Context,
 
             val intent = Intent(mContext, CsvActivity::class.java)
             intent.putExtra("api_filter_data", mArrayList[position])
+            intent.putExtra("filter_position", position)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             mContext.startActivity(intent)
         }
